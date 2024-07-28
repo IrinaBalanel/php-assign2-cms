@@ -38,12 +38,13 @@
                         $result = mysqli_query($connect, $query);
                         if ($result && $result->num_rows > 0) {
                             $row = $result->fetch_assoc();
+                            // IMAGE SHOW BLOCK
                             echo '<div class="art-header">
                                     <span class="text-center">' . htmlspecialchars($row["Artist"]) . '</span>
                                     <h1 class="text-center text-uppercase">' . htmlspecialchars($row["Title"]) . '</h1>
                                   </div>
                                   <div class="art-image-block">
-                                    <img src="' . htmlspecialchars($row["ImageURL"]) . '" alt="' . htmlspecialchars($row["YearInstalled"]) . '" class="w-100 h-100">
+                                    <img src="' . htmlspecialchars($row["Image"]) . '" alt="' . htmlspecialchars($row["YearInstalled"]) . '" class="w-100 h-100">
                                   </div>
                                   <div class="row main-content">
                                     <div class="col-12 col-md-7 col-xl-8 pe-md-5">

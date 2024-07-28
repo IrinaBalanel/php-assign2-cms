@@ -21,6 +21,7 @@
         $Latitude = $_POST['latitude'];  // Add latitude
         $Longitude = $_POST['longitude']; // Add longitude
 
+    
         // Start transaction
         $connect->begin_transaction();
         try {
@@ -63,11 +64,47 @@
                 $location_id = $connect->insert_id;
             }
 
+            //IMAGE UPLOAD FUNCTIONALITY
+            $Image = '';
+            if (isset($_FILES['Image']) && $_FILES['Image']['error'] == 0) {
+                $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+                $fileType = $_FILES['Image']['type'];
+                if (in_array($fileType, $allowedTypes)) {
+                    switch ($fileType) { // Determine the file type of the uploaded image
+                        case 'image/png': $type = 'png'; break;
+                        case 'image/jpg': $type = 'jpg'; break;
+                        case 'image/jpeg': $type = 'jpeg'; break;
+                        case 'image/gif': $type = 'gif'; break;
+                    }
+                    $ImageData = file_get_contents($_FILES['Image']['tmp_name']);
+                    $ImageEncoded = base64_encode($ImageData);
+                    $Image = "data:image/$type;base64,$ImageEncoded";
+                } else {
+                    set_message("Invalid file format. Only JPG, JPEG, PNG, and GIF files are allowed.", "alert-danger");
+                    header('Location: ../updateart.php');
+                    exit();
+                }
+            } else {
+                $existing_image_query = "SELECT Image FROM Artworks WHERE _id = ?";
+                $stmt = $connect->prepare($existing_image_query);
+                $stmt->bind_param("i", $ArtworkID);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $Image = $row['Image'];
+                } else {
+                    echo 'Artwork not found';
+                    exit();
+                }
+            }
+
             // Update Artwork
-            $update_query = "UPDATE Artworks SET Source = ?, Title = ?, Medium = ?, ArtForm = ?, `Status` = ?, ImageName = ?, ImageURL = ?, YearInstalled = ?, `Description` = ?, ImageOrientation = ?, ArtistID = ?, LocationID = ?
+            $update_query = "UPDATE Artworks SET Source = ?, Title = ?, Medium = ?, ArtForm = ?, `Status` = ?, ImageName = ?, ImageURL = ?, `Image` = ?, YearInstalled = ?, `Description` = ?, ImageOrientation = ?, ArtistID = ?, LocationID = ?
                             WHERE _id = ?";
             $stmt = $connect->prepare($update_query);
-            $stmt->bind_param("sssssssiisiii", $Source, $Title, $Medium, $ArtForm, $Status, $ImageName, $ImageURL, $YearInstalled, $Description, $ImageOrientation, $artist_id, $location_id, $ArtworkID);
+            $stmt->bind_param("sssssssssssiii", $Source, $Title, $Medium, $ArtForm, $Status, $ImageName, $ImageURL, $Image, $YearInstalled, $Description, $ImageOrientation, $artist_id, $location_id, $ArtworkID);
+
             $stmt->execute();
 
             $update_query = "UPDATE Artworks SET `Description` = ? WHERE _id = ?";

@@ -24,6 +24,8 @@
     $Latitude = mysqli_real_escape_string($connect, $_POST['latitude']);
     $Longitude = mysqli_real_escape_string($connect, $_POST['longitude']);
 
+
+
     // Set default description if empty
     if (empty($Description)) {
         $Description = "No description about this art.";
@@ -49,10 +51,37 @@
         }
         $location_id = $connect->insert_id;
 
+        //IMAGE UPLOAD FUNCTIONALITY
+        $Image = '';
+        if (isset($_FILES['Image']) && $_FILES['Image']['error'] == 0) {
+            $allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+            $fileType = $_FILES['Image']['type'];
+            if (in_array($fileType, $allowedTypes)) {
+                switch ($fileType) { // Determine the file type of the uploaded image
+                    case 'image/png': $type = 'png'; break;
+                    case 'image/jpg': $type = 'jpg'; break;
+                    case 'image/jpeg': $type = 'jpeg'; break;
+                    case 'image/gif': $type = 'gif'; break;
+                }
+                $ImageData = file_get_contents($_FILES['Image']['tmp_name']);
+                $ImageEncoded = base64_encode($ImageData);
+                $Image = "data:image/$type;base64,$ImageEncoded";
+            } else {
+                set_message("Invalid file format. Only JPG, JPEG, PNG, and GIF files are allowed.", "alert-danger");
+                header('Location: ../addart.php');
+                exit();
+            }
+        } else {
+            set_message("Image file is required.", "alert-danger");
+            header('Location: ../addart.php');
+            exit();
+        }
+
+
         // Insert into Artworks table
-        $artwork_stmt = $connect->prepare("INSERT INTO Artworks (Title, Medium, ArtForm, `Status`, ImageName, ImageURL, YearInstalled, `Description`, ImageOrientation, ArtistID, LocationID)
-                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $artwork_stmt->bind_param("ssssssissii", $Title, $Medium, $ArtForm, $Status, $ImageName, $ImageURL, $YearInstalled, $Description, $ImageOrientation, $artist_id, $location_id);
+        $artwork_stmt = $connect->prepare("INSERT INTO Artworks (Title, Medium, ArtForm, `Status`, ImageName, ImageURL, `Image`, YearInstalled, `Description`, ImageOrientation, ArtistID, LocationID)
+                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $artwork_stmt->bind_param("ssssssssssii", $Title, $Medium, $ArtForm, $Status, $ImageName, $ImageURL, $Image, $YearInstalled, $Description, $ImageOrientation, $artist_id, $location_id);
         if (!$artwork_stmt->execute()) {
             throw new Exception($connect->error);
         }

@@ -63,7 +63,7 @@
                         <?php get_message(); ?>
                         </div>
                     </div>                  
-                    <form method="POST" action="inc/update_artwork.php" class="row">
+                    <form method="POST" action="inc/update_artwork.php" class="row" enctype="multipart/form-data">
                         <input type="hidden" name="ArtworkID" value="<?php echo $artwork_id; ?>">
                         <div class="form-group col-12 col-md-6 mb-3">    
                             <label class="form-label" for="Source">Source:</label>
@@ -96,6 +96,15 @@
                         <div class="form-group col-12 col-md-6 mb-3">
                             <label class="form-label" for="ImageURL">Image URL:</label>
                             <input class="form-control" type="text" id="ImageURL" name="ImageURL" value="<?php echo htmlspecialchars($row['ImageURL']); ?>">
+                        </div>
+                        <!-- Image upload block -->
+                        <div class="form-group col-12 col-md-6 mb-3">
+                            <label class="form-label" for="Image">Upload Image:</label>
+                            <input class="form-control" type="file" id="Image" name="Image">
+                        </div>
+                        <div class="form-group col-12 col-md-6 mb-3" style="display: flex; flex-flow: column;">
+                            <label class="form-label" for="ImageView">Current Image:</label>
+                            <img src="<?php echo htmlspecialchars($row['Image']); ?>" style="width: 100%; height: auto;" id="ImageView">
                         </div>
                         <div class="form-group col-12 col-md-4 mb-3">
                             <label class="form-label" for="Status">Status:</label>

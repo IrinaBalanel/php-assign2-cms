@@ -46,7 +46,7 @@
                 $offset = ($current_page - 1) * $items_per_page;
 
                 // Modify the query to use LIMIT and OFFSET
-                $query = "SELECT Artworks._id, Artworks.Title, Artworks.ImageURL, Artworks.YearInstalled, Artists.Artist
+                $query = "SELECT Artworks._id, Artworks.Title, Artworks.Image, Artworks.YearInstalled, Artists.Artist
                         FROM Artworks
                         JOIN Artists ON Artworks.ArtistID = Artists.ArtistID
                         LIMIT $items_per_page OFFSET $offset";
@@ -74,12 +74,11 @@
                     return $links;
                 }
 
-
                 if ($result->num_rows > 0) {
                     foreach($result as $row){
                     echo '<div class="card-art col-12 col-md-6 col-xl-4">
                             <a href="view_artwork.php?id=' . $row["_id"] . '" class="card-art-image d-block">
-                                 <img src="' . $row["ImageURL"] . '" class="w-100 h-100" alt="' . $row["YearInstalled"] . '" />
+                                 <img src="' . $row["Image"] . '" class="w-100 h-100" alt="' . $row["YearInstalled"] . '" />
                             </a>
                             <div class="card-art-body">
                                 <div class="card-art-info">

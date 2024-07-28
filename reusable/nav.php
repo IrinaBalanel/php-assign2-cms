@@ -15,8 +15,14 @@
           <a class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">Home</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link <?php echo ($current_page == 'addart.php') ? 'active' : ''; ?>" href="addart.php">Add Art</a>
+          <a class="nav-link <?php echo ($current_page == 'login.php') ? 'active' : ''; ?>" href="login.php">Login</a>
           </li>
+          <!-- <li class="nav-item">
+          <a class="nav-link <?php echo ($current_page == 'admin.php') ? 'active' : ''; ?>" href="admin.php">Admin</a>
+          </li> -->
+          <!-- <li class="nav-item">
+          <a class="nav-link <?php echo ($current_page == 'addart.php') ? 'active' : ''; ?>" href="addart.php">Add Art</a>
+          </li> -->
         </ul>
       </div>
     </div>

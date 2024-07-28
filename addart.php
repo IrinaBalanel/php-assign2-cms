@@ -24,10 +24,10 @@
                 <div class="container">  
                     <div class="row">
                         <div class="col">
-                        <?php get_message(); ?>
+                            <?php get_message(); ?>
                         </div>
                     </div>                  
-                    <form method="POST" action="inc/add_artwork.php" class="row">
+                    <form method="POST" action="inc/add_artwork.php" class="row" enctype="multipart/form-data">
                         <div class="form-group col-12 col-md-6 mb-3">    
                             <label class="form-label" for="Source">Source:</label>
                             <input class="form-control" type="text" id="Source" name="Source" required>
@@ -59,6 +59,11 @@
                         <div class="form-group col-12 col-md-6 mb-3">
                             <label class="form-label" for="ImageURL">Image URL:</label>
                             <input class="form-control" type="text" id="ImageURL" name="ImageURL">
+                        </div>
+                        <!-- Image upload block -->
+                        <div class="form-group col-12 col-md-6 mb-3">
+                            <label class="form-label" for="Image">Upload Image:</label>
+                            <input class="form-control" type="file" id="Image" name="Image">
                         </div>
                         <div class="form-group col-12 col-md-4 mb-3">
                             <label class="form-label" for="Status">Status:</label>
