@@ -1,7 +1,11 @@
 <?php
+// Start session
+session_start();
 
-    include( 'inc/functions.php' );
+// Destroy session
+session_destroy();
 
-    session_destroy();
-
-    header( 'Location: login.php' );
+// Redirect to login page
+header('Location: login.php');
+exit();
+?>
