@@ -462,6 +462,53 @@ header {
   box-shadow: 0 0 0 0.25rem rgba(184, 0, 0, 0.5);
 }
 
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+
+#footer {
+  background-color: #272727;
+}
+
+.footer-top {
+  padding-top: 80px;
+  padding-bottom: 60px;
+}
+
+.footer-widget img {
+  width: 200px;
+}
+
+.footer-widget-header {
+  color: var(--text-white);
+  font-size: 1.5rem;
+}
+
+.footer-widget-text {
+  padding-left: 0;
+  list-style: none;
+  font-weight: 300;
+}
+
+.footer-widget-text li {
+  margin-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.footer-widget-text a,
+.footer-widget-text p {
+  color: var(--text-white);
+}
+
+.footer-widget-text a:hover {
+  color: var(--text-primary);
+}
+
+.footer-bottom {
+  background-color: #111111;
+  color: var(--text-white);
+}
+
 /* ADMIN */
 .user-header img {
   width: 32px;

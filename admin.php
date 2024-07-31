@@ -129,7 +129,8 @@ secure(); // Ensure the user is logged in
         </section>
     </main>
     <?php
-    include ('reusable/scripts.php');
+        include ('reusable/footer.php');
+        include ('reusable/scripts.php');
     ?>
 </body>
 

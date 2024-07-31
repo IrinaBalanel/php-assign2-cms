@@ -78,7 +78,10 @@
             </div>
         </section>
     </main>
-    <?php include ('reusable/scripts.php'); ?>
+    <?php
+        include('reusable/footer.php');
+        include ('reusable/scripts.php'); 
+    ?>
 </body>
 
 </html>

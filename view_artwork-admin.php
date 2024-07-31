@@ -122,7 +122,10 @@
             </div>
         </section>
     </main>
-    <?php include('reusable/scripts.php'); ?>
+    <?php 
+        include('reusable/footer.php'); 
+        include('reusable/scripts.php'); 
+    ?>
 
     <!-- Modal HTML for success/failure messages -->
     <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">

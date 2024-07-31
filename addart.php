@@ -115,56 +115,57 @@
                 </div>
             </section>
         </main>
+        <?php
+            include('reusable/footer.php');
+            include('reusable/scripts.php');
+        ?>
+        <script>
+            function initAutocomplete() {
+                const input = document.getElementById('Location');
+                const suggestions = document.getElementById('suggestions');
+                const latitudeField = document.getElementById('latitude');
+                const longitudeField = document.getElementById('longitude');
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['geocode']
+                });
+
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.geometry) {
+                        input.value = place.formatted_address;
+                        latitudeField.value = place.geometry.location.lat();
+                        longitudeField.value = place.geometry.location.lng();
+                        suggestions.style.display = 'none';
+                    }
+                });
+
+                input.addEventListener('input', function() {
+                    if (input.value.length > 0) {
+                        suggestions.style.display = 'block';
+                        suggestions.innerHTML = '';
+                        const service = new google.maps.places.AutocompleteService();
+                        service.getPlacePredictions({ input: input.value, types: ['geocode'] }, function(predictions, status) {
+                            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                predictions.forEach(function(prediction) {
+                                    const li = document.createElement('li');
+                                    li.className = 'list-group-item';
+                                    li.textContent = prediction.description;
+                                    li.onclick = function() {
+                                        input.value = prediction.description;
+                                        suggestions.style.display = 'none';
+                                        autocomplete.getPlace();
+                                    };
+                                    suggestions.appendChild(li);
+                                });
+                            }
+                        });
+                    } else {
+                        suggestions.style.display = 'none';
+                    }
+                });
+            }
+
+            window.onload = initAutocomplete;
+        </script>
     </body>
-    <?php
-        include('reusable/scripts.php');
-    ?>
-    <script>
-        function initAutocomplete() {
-            const input = document.getElementById('Location');
-            const suggestions = document.getElementById('suggestions');
-            const latitudeField = document.getElementById('latitude');
-            const longitudeField = document.getElementById('longitude');
-            const autocomplete = new google.maps.places.Autocomplete(input, {
-                types: ['geocode']
-            });
-
-            autocomplete.addListener('place_changed', function() {
-                const place = autocomplete.getPlace();
-                if (place.geometry) {
-                    input.value = place.formatted_address;
-                    latitudeField.value = place.geometry.location.lat();
-                    longitudeField.value = place.geometry.location.lng();
-                    suggestions.style.display = 'none';
-                }
-            });
-
-            input.addEventListener('input', function() {
-                if (input.value.length > 0) {
-                    suggestions.style.display = 'block';
-                    suggestions.innerHTML = '';
-                    const service = new google.maps.places.AutocompleteService();
-                    service.getPlacePredictions({ input: input.value, types: ['geocode'] }, function(predictions, status) {
-                        if (status === google.maps.places.PlacesServiceStatus.OK) {
-                            predictions.forEach(function(prediction) {
-                                const li = document.createElement('li');
-                                li.className = 'list-group-item';
-                                li.textContent = prediction.description;
-                                li.onclick = function() {
-                                    input.value = prediction.description;
-                                    suggestions.style.display = 'none';
-                                    autocomplete.getPlace();
-                                };
-                                suggestions.appendChild(li);
-                            });
-                        }
-                    });
-                } else {
-                    suggestions.style.display = 'none';
-                }
-            });
-        }
-
-        window.onload = initAutocomplete;
-    </script>
 </html>
