@@ -3,8 +3,8 @@
 
     // Check if session variable indicating update success exists
     if (isset($_SESSION['update_success']) && $_SESSION['update_success']) {
-        // Redirect to index page or any other desired page
-        header('Location: ../index.php');
+        // Redirect to admin page or any other desired page
+        header('Location: ../admin.php');
         exit();
     }
     
@@ -24,13 +24,13 @@
         } else {
             $_SESSION['message'] = "Invalid artwork ID.";
             $_SESSION['className'] = "alert-danger";
-            header("Location: view_artwork.php?status=error");
+            header("Location: view_artwork-admin.php?status=error");
             exit();
         }
     } else {
         $_SESSION['message'] = "No artwork ID provided.";
         $_SESSION['className'] = "alert-danger";
-        header("Location: view_artwork.php?status=error");
+        header("Location: view_artwork-admin.php?status=error");
         exit();
     }
 ?>
@@ -45,7 +45,7 @@
     </head>
     <body>
         <?php
-            include('reusable/nav.php');
+            include('reusable/nav-one.php');
             include('inc/functions.php');
         ?>
         <main>

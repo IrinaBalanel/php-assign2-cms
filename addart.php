@@ -9,7 +9,7 @@
     </head>
     <body>
         <?php
-            include('reusable/nav.php');
+            include('reusable/nav-one.php');
             include('inc/functions.php');
         ?>
         <main>

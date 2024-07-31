@@ -16,7 +16,6 @@
 <body>
     <?php
     include ('reusable/nav.php');
-    secure();
     ?>
     <main>
         <section>
@@ -41,7 +40,7 @@
                     include 'reusable/conn.php';
 
                     // Set the number of items per page
-                    $items_per_page = 20;
+                    $items_per_page = 10;
 
                     // Get the current page number from URL, default is 1
                     $current_page = isset($_GET['page']) ? (int) $_GET['page'] : 1;

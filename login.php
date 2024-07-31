@@ -1,37 +1,33 @@
 <?php
-session_start();
-include ('reusable/conn.php');
-include ('inc/functions.php');
+  include('reusable/conn.php');
+  include('inc/functions.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = mysqli_real_escape_string($connect, $_POST['email']);
-    $password = $_POST['password'];
+  if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = md5($_POST['password']);
 
-    $query = "SELECT * FROM users WHERE email = ? AND active = 'Yes' LIMIT 1";
+    $query = 'SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1';
     $stmt = $connect->prepare($query);
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("ss", $email, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows == 1) {
+    if ($result->num_rows > 0) {
         $record = $result->fetch_assoc();
-
-        if (password_verify($password, $record['password'])) {
-            $_SESSION['id'] = $record['id'];
-            $_SESSION['email'] = $record['email'];
-            header('Location: admin.php');
-            exit();
-        } else {
-            set_message('Incorrect email and/or password', 'alert-danger');
-            header('Location: login.php');
-            exit();
-        }
+        $_SESSION['id'] = $record['id'];
+        $_SESSION['name'] = $record['name'];
+        $_SESSION['email'] = $record['email'];
+        header('Location: admin.php');
+        die();
     } else {
-        set_message('Incorrect email and/or password', 'alert-danger');
+        set_message('No records found!', 'danger');
         header('Location: login.php');
-        exit();
+        die();
     }
+
+    $stmt->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -50,31 +46,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <?php include ('reusable/nav.php'); ?>
+    <header>
+    <nav class="navbar navbar-expand-lg position-relative p-0 h-100">
+        <div class="container">
+            <a class="navbar-brand" href="login.php"><img src="./assets/images/logo.png" alt="Galleria-Logo" /></a>
+        </div>
+    </nav>
+    </header>
     <main>
-        <section>
-            <div class="section-header">
-                <div class="container h-100 align-items-center d-flex">
-                    <h2 class="section-header-title text-white text-uppercase">Login</h2>
-                </div>
-            </div>
-        </section>
         <section class="section-body">
             <div class="container">
-                <?php get_message(); ?>
-                <form method="post" style="max-width: 400px; margin:auto">
-                    <div class="form-group mb-3">
-                        <label class="form-label" for="email">Email:</label>
-                        <input class="form-control" type="email" id="email" name="email" required>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5 p-2 p-5 shadow rounded">
+                        <h2 class="mb-4">Login</h2>
+                        <form method="POST" action="login.php">
+                            <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" id="email">
+                            </div>
+                            <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="login">
+                                <svg height="45.6" width="125.738"><rect height="45.6" width="125.738"></rect></svg>
+                                <span class="btn-text">Login</span>
+                            </button>
+                        </form>
                     </div>
-                    <div class="form-group mb-3">
-                        <label class="form-label" for="password">Password:</label>
-                        <input class="form-control" type="password" id="password" name="password" required>
-                    </div>
-                    <div class="form-group mt-4">
-                        <button class="btn btn-primary" type="submit">Login</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </section>
     </main>

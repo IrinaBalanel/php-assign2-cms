@@ -91,9 +91,11 @@ header {
     right: 0px;
     left: 0px;
     background-color: var(--text-white);
+    box-shadow: 0 26px 20px 20px #eee;
   }
 
-  .navbar-nav {
+  .navbar-nav,
+  .user-header {
     margin: 0 auto;
     max-width: 720px;
     padding-right: var(--bs-gutter-x, 0.75rem);
@@ -118,6 +120,12 @@ header {
 
   .navbar-nav .nav-link::after {
     content: none;
+  }
+
+  .user-header {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    line-height: 2.33em;
   }
 }
 
@@ -452,4 +460,11 @@ header {
 
 .btn-danger:active:focus {
   box-shadow: 0 0 0 0.25rem rgba(184, 0, 0, 0.5);
+}
+
+/* ADMIN */
+.user-header img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
 }

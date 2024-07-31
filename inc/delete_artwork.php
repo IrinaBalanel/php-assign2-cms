@@ -45,22 +45,22 @@
 
                 $_SESSION['message'] = "Artwork and related information deleted successfully.";
                 $_SESSION['className'] = "alert-success";
-                header("Location: ../index.php");
+                header("Location: ../admin.php");
             } catch (Exception $e) {
                 // Rollback transaction if an error occurs
                 $connect->rollback();
                 $_SESSION['message'] = "Error: " . $e->getMessage();
                 $_SESSION['className'] = "alert-danger";
-                header("Location: ../view_artwork.php?status=error");
+                header("Location: ../view_artwork-admin.php?status=error");
             }
         } else {
             $_SESSION['message'] = "Invalid artwork ID.";
             $_SESSION['className'] = "alert-danger";
-            header("Location: ../view_artwork.php?status=error");
+            header("Location: ../view_artwork-admin.php?status=error");
         }
     } else {
         $_SESSION['message'] = "No artwork ID provided.";
         $_SESSION['className'] = "alert-danger";
-        header("Location: ../view_artwork.php?status=error");
+        header("Location: ../view_artwork-admin.php?status=error");
     }
 ?>

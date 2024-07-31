@@ -6,7 +6,7 @@
     <?php include('reusable/styles.php'); ?>
 </head>
 <body>
-    <?php include('reusable/nav.php'); ?>
+    <?php include('reusable/nav-one.php'); ?>
 
     <?php
     // Define the nl2p function
@@ -67,6 +67,22 @@
                                       <div class="art-widget">
                                         <h4 class="art-widget-title">Location</h4>
                                         <p class="art-widget-text">' . htmlspecialchars($row["Ward"]) . ' ' . htmlspecialchars($row["Location"]) . ', ' . htmlspecialchars($row["WardFullName"]) . '</p>
+                                      </div>
+                                      <div class="art-widget">
+                                        <div class="mt-5">
+                                          <a href="updateart.php?id=' . $artwork_id . '" class="btn btn-warning">
+                                            <svg height="45.6" width="125.738"><rect height="45.6" width="125.738"></rect></svg>
+                                            <span class="btn-text">Update Artwork</span>
+                                          </a>
+                                        </div>
+                                      </div>
+                                      <div class="art-widget">
+                                        <div class="mt-5">
+                                          <a href="inc/delete_artwork.php?id=' . $artwork_id . '" class="btn btn-danger">
+                                            <svg height="45.6" width="125.738"><rect height="45.6" width="125.738"></rect></svg>
+                                            <span class="btn-text">Delete Artwork</span>
+                                          </a>
+                                        </div>
                                       </div>
                                     </aside>
                                   </div>';
