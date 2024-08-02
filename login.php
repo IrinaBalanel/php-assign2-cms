@@ -46,13 +46,9 @@
 </head>
 
 <body>
-    <header>
-    <nav class="navbar navbar-expand-lg position-relative p-0 h-100">
-        <div class="container">
-            <a class="navbar-brand" href="login.php"><img src="./assets/images/logo.png" alt="Galleria-Logo" /></a>
-        </div>
-    </nav>
-    </header>
+    <?php
+        include('reusable/nav.php');
+    ?>
     <main>
         <section class="section-body">
             <div class="container">
