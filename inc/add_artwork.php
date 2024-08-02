@@ -94,7 +94,7 @@
         set_message("New artwork added successfully", "alert-success");
 
         // Redirect to the view_artwork.php page with the new artwork ID
-        header("Location: ../view_artwork.php?id=$artwork_id");
+        header("Location: ../view_artwork-admin.php?id=$artwork_id");
         exit();
 
     } catch (Exception $e) {

@@ -151,7 +151,7 @@
                     modal.show();
                     setTimeout(() => {
                         modal.hide();
-                        window.location.href = window.location.href.split('?')[0]; // Redirect to remove status from URL
+                        window.location.href = window.location.href.split('#')[0]; // Redirect to remove status from URL
                     }, 3000); // 3 seconds
                 }
                 <?php unset($_SESSION['message']); unset($_SESSION['className']); ?>

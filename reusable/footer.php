@@ -34,13 +34,16 @@
                 <p class="footer-widget-header">Follow Us</p>
                 <ul class="footer-widget-text mt-4">
                     <li>
-                        <a href="#">Facebook</a>
+                        <img src="assets/images/facebook.svg" style="width: 25px"/>
+                        <a href="#"> Facebook</a>
                     </li>
                     <li>
-                        <a href="#">Instagram</a>
+                        <img src="assets/images/instagram.svg" style="width: 25px"/>
+                        <a href="#"> Instagram</a>
                     </li>
                     <li>
-                        <a href="#">Twitter</a>
+                        <img src="assets/images/twitter.svg" style="width: 25px"/>
+                        <a href="#"> Twitter</a>
                     </li>
                 </ul>
             </div>

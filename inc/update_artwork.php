@@ -119,7 +119,7 @@
 
             // Set success message
             set_message("Artwork updated successfully", "alert-success");
-            header('Location: ../view_artwork.php?id=' . $ArtworkID);
+            header('Location: ../view_artwork-admin.php?id=' . $ArtworkID);
         } catch (Exception $e) {
             // Rollback transaction on error
             $connect->rollback();
