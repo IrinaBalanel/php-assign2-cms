@@ -19,13 +19,13 @@ The Public Art Management System is a web application designed to manage public 
 
 ## Demo
 
-The CMS is available [here]("http://publicart-cms.free.nf"). To test the admin, click Login and enter the following cridentials: `admin@gmail.com` for email and `password` for password.
+The CMS is available [here](http://publicart-cms.free.nf). To test the admin, click Login and enter the following cridentials: `admin@gmail.com` for email and `password` for password.
 
 ## Database Design
 
 The database consists of four main tables: artworks, artists, locations, and users. The artworks table has a foreign key ArtistID that references the ArtistID in the artists table (one-to-many relationship where one artist can have multiple artworks). The artworks table also has a foreign key LocationID that references the LocationID in the locations table (one-to-many relationship where one location can have multiple artworks).
 
-### `Artworks` Table:
+### Artworks Table:
 - `_id`: Primary key, auto-incremented `integer`.
 - `Source`: Source of the artwork, `varchar`(54).
 - `Title`: Title of the artwork, `varchar`(59).
@@ -41,11 +41,11 @@ The database consists of four main tables: artworks, artists, locations, and use
 - `ArtistID`: Foreign key, references ArtistID in artists table, `int`.
 - `LocationID`: Foreign key, references LocationID in locations table, `int`.
 
-### `Artists` Table:
+### Artists Table:
 - `ArtistID`: Primary key, auto-incremented `integer`.
 - `Artist`: Name of the artist, `varchar`(64).
 
-### `Locations` Table:
+### Locations Table:
 - `LocationID`: Primary key, auto-incremented `integer`.
 - `Location`: Name or address of the location, `varchar`(84).
 - `Ward`: Ward number, `int`(2).
@@ -53,7 +53,7 @@ The database consists of four main tables: artworks, artists, locations, and use
 - `latitude`: Latitude coordinate, `float`(10,6).
 - `longitude`: Longitude coordinate, `float`(10,6).
 
-### `Users` Table:
+### Users Table:
 - `id`: Primary key, auto-incremented `integer`.
 - `name`: Name of the user, `varchar`(25).
 - `email`: Email of the user, `varchar`(100).
