@@ -19,7 +19,7 @@ The Public Art Management System is a web application designed to manage public 
 
 ## Demo
 
-The CMS is available [here](http://publicart-cms.free.nf). To test the admin, click Login and enter the following cridentials: `admin@gmail.com` for email and `password` for password.
+The CMS is available [here](https://publicart-cms.free.nf). To test the admin, click Login and enter the following cridentials: `admin@gmail.com` for email and `password` for password.
 
 ## Database Design
 
