@@ -1,0 +1,52 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  IMAGE_REPOSITORY: "$CI_REGISTRY_IMAGE"
+  IMAGE_TAG: "$CI_COMMIT_SHA"
+
+build:image:
+  stage: build
+  image: docker:27.5.1
+  services:
+    - docker:27.5.1-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - docker build -t "$IMAGE_REPOSITORY:$IMAGE_TAG" -t "$IMAGE_REPOSITORY:main" .
+    - docker push "$IMAGE_REPOSITORY:$IMAGE_TAG"
+    - docker push "$IMAGE_REPOSITORY:main"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+deploy:hosting:
+  stage: deploy
+  image: alpine:3.21
+  before_script:
+    - apk add --no-cache openssh-client
+    - install -m 700 -d ~/.ssh
+    - echo "$PROXMOX_SSH_PRIVATE_KEY_B64" | base64 -d > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -H "$PROXMOX_HOST" >> ~/.ssh/known_hosts
+  script:
+    - |
+      set -euo pipefail
+      cat > deploy.env <<ENV
+      IMAGE=${IMAGE_REPOSITORY}:${IMAGE_TAG}
+      APP_PORT=8003
+      DB_USERNAME=${DB_USERNAME}
+      DB_PASSWORD=${DB_PASSWORD}
+      DB_DATABASE=publicart
+      MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      ENV
+      ssh "${PROXMOX_USER}@${PROXMOX_HOST}" "pct exec ${HOSTING_LXC_ID} -- mkdir -p /opt/public-art"
+      ssh "${PROXMOX_USER}@${PROXMOX_HOST}" "pct exec ${HOSTING_LXC_ID} -- bash -lc 'cat > /opt/public-art/docker-compose.yml'" < docker-compose.yml
+      ssh "${PROXMOX_USER}@${PROXMOX_HOST}" "pct exec ${HOSTING_LXC_ID} -- bash -lc 'cat > /opt/public-art/.env'" < deploy.env
+      ssh "${PROXMOX_USER}@${PROXMOX_HOST}" "pct exec ${HOSTING_LXC_ID} -- bash -lc 'cd /opt/public-art && docker compose pull && docker compose up -d --remove-orphans'"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual

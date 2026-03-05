@@ -1,0 +1,45 @@
+services:
+  publicart:
+    image: ${IMAGE:-registry.gitlab.andrewbalanel.com/ib/php-assign2-cms:latest}
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8003}:80"
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USERNAME: ${DB_USERNAME:-publicart_user}
+      DB_PASSWORD: ${DB_PASSWORD:-publicart_password}
+      DB_DATABASE: ${DB_DATABASE:-publicart}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - publicart
+
+  mariadb:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+      MYSQL_DATABASE: ${DB_DATABASE:-publicart}
+      MYSQL_USER: ${DB_USERNAME:-publicart_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-publicart_password}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./db/seed/publicart.sql:/docker-entrypoint-initdb.d/001_publicart.sql:ro
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD:-root_password}"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks:
+      - publicart
+
+volumes:
+  mariadb_data:
+
+networks:
+  publicart:
+    name: publicart
