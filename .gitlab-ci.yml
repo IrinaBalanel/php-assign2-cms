@@ -40,9 +40,10 @@ deploy:hosting:
       DB_DATABASE=publicart
       MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       ENV
-      ssh "${deploy_user}@${DEPLOY_HOST}" "mkdir -p ${deploy_dir}"
+      ssh "${deploy_user}@${DEPLOY_HOST}" "mkdir -p ${deploy_dir}/db/seed"
       ssh "${deploy_user}@${DEPLOY_HOST}" "cat > ${deploy_dir}/docker-compose.yml" < docker-compose.yml
       ssh "${deploy_user}@${DEPLOY_HOST}" "cat > ${deploy_dir}/.env" < deploy.env
+      ssh "${deploy_user}@${DEPLOY_HOST}" "cat > ${deploy_dir}/db/seed/publicart.sql" < db/seed/publicart.sql
       registry_password_b64="$(printf '%s' "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')"
       ssh "${deploy_user}@${DEPLOY_HOST}" "printf '%s' '${registry_password_b64}' | base64 -d | docker login '${CI_REGISTRY}' -u '${CI_REGISTRY_USER}' --password-stdin >/dev/null && cd ${deploy_dir} && docker compose pull && docker compose up -d --remove-orphans"
   rules:
