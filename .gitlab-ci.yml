@@ -41,6 +41,7 @@ deploy:hosting:
       MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       ENV
       ssh "${deploy_user}@${DEPLOY_HOST}" "mkdir -p ${deploy_dir}/db/seed"
+      ssh "${deploy_user}@${DEPLOY_HOST}" "rm -rf ${deploy_dir}/db/seed/publicart.sql"
       ssh "${deploy_user}@${DEPLOY_HOST}" "cat > ${deploy_dir}/docker-compose.yml" < docker-compose.yml
       ssh "${deploy_user}@${DEPLOY_HOST}" "cat > ${deploy_dir}/.env" < deploy.env
       ssh "${deploy_user}@${DEPLOY_HOST}" "cat > ${deploy_dir}/db/seed/publicart.sql" < db/seed/publicart.sql
