@@ -19,7 +19,10 @@ The Public Art Management System is a web application designed to manage public 
 
 ## Demo
 
-The CMS is available [here](https://public-art.irinabalanel.com/). To test the admin, click Login and enter the following cridentials: `admin@gmail.com` for email and `password` for password.
+The read-only application is available [here](https://public-art.irinabalanel.com/).
+Administrative access is intentionally not documented. Demonstrations should
+use a disposable account whose credentials are shared out of band and rotated
+afterward.
 
 ## Database Design
 
@@ -64,3 +67,10 @@ The database consists of four main tables: artworks, artists, locations, and use
 ## Interface
 <img src="interface.png" width="500px">
 
+## Security and Publication
+
+Never deploy the sample database, development users, uploaded files, or local
+configuration unchanged. Before treating this repository as a public portfolio
+project, scan the full Git history for credentials and personal data, confirm
+that passwords are hashed, and verify that the hosted demo does not accept any
+credential previously published in documentation.
